@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% block content %}
+<br>
+<br>
+
+<div class="bg-image text-center text-white" style="background-image: url('./media/assets/home_cover.png'); height: 45vh">
+
+    <div>
+        <br>
+        <h1>Crop Disease Prediction</h1>
+        <p>Want to know what type of disease your plant affected with,then Upload a images of listed plants and get to know the disease it posses and the remedies to prevent further loss of plants.</p>
+    </div>
+
+    <br>
+    <br>
+    <center>
+        <form method="post" enctype="multipart/form-data" action="predictImage">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="input-group mb-3 w-60">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text text-success" id="inputGroup-sizing-default">Leaf image</span>
+                        </div>
+                        <input type="file" class="form-control" name="filePath" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-3">
+                        <button class="btn btn-light" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </center>
+</div>
+<br>
+<br>
+<br>
+<div class="container-fluid">
+    {% if a %}
+    <center>
+        <div class="row">
+            <div class="col-md-3" style="width: 18rem;">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="{{ filePathName }}" width="250px" height="250px" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">{{ filePathName }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9" style="width: 54rem;">
+                <div class="card ">
+                    <div class="card-body ">
+                        {% if c %}
+                        <p>{{ msg }}</p>
+                        {% else %}
+                        <p class="card-text text-info"><b>{{ pred }} is predicted with an accuracy of {{ prob }}</b></p>
+                        <p class="card-text "><span><b>Description: </b></span>{{ disDescription }}</p>
+                        <p class="card-text "><span><b>Treatment: </b></span>{{ disTreatment }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+
+    <p></p>
+    {% else %}
+    <div class="row ">
+        <div class="col-md-6 ">
+            <ul class="list-group ">
+                <li class="list-group-item bg-success text-white" aria-current="true ">Do's</li>
+                <li class="list-group-item ">Insert single leaf images only.</li>
+                <li class="list-group-item ">Insert good quality images.</li>
+                <li class="list-group-item ">Do login/register for seeing your uploads.</li>
+                <li class="list-group-item ">File or Image name should not be longer than 20 characters.</li>
+            </ul>
+        </div>
+        <div class="col-md-6 ">
+            <ul class="list-group ">
+                <li class="list-group-item bg-success text-white " aria-current="true ">Dont's</li>
+                <li class="list-group-item ">Don't insert multiple images</li>
+                <li class="list-group-item ">Don't insert bad quality images</li>
+                <li class="list-group-item ">Don't upload images other than leaves</li>
+                <li class="list-group-item ">Don't upload file with it's name more than 20 characters.</li>
+            </ul>
+        </div>
+    </div>
+    {% endif%}
+</div>
+
+<br><br><br> {% endblock %}
